@@ -43,7 +43,7 @@ Follow the guides below for manual setup or universal widgets.
 <!-- 1. Add container -->
 <div id="hf-widget"></div>
 
-<!-- 2. Configure and load -->
+<!-- 2. Configure -->
 <script>
   window.hfWidgetConfig = {
     collection: "pudgypenguins",
@@ -53,12 +53,10 @@ Follow the guides below for manual setup or universal widgets.
     displayMode: "button-input",
     theme: "light"
   };
-
-  fetch('https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@main/src/hf-widget.js')
-    .then(r => r.text())
-    .then(code => eval(code))
-    .catch(e => console.error('HF Widget error:', e));
 </script>
+
+<!-- 3. Load widget -->
+<script src="https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-widget.js"></script>
 ```
 
 ### Configuration Options
@@ -102,10 +100,8 @@ Check collection details (e.g., `ethereum`, `polygon`, `base`)
     contract: "0xBd3531dA5CF5857e7CfAA92426877b022e612cf8",
     chain: "ethereum"
   };
-  fetch('https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@main/src/hf-widget.js')
-    .then(r => r.text())
-    .then(code => eval(code));
 </script>
+<script src="https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-widget.js"></script>
 ```
 
 **Dark theme, button-only:**
@@ -121,10 +117,8 @@ Check collection details (e.g., `ethereum`, `polygon`, `base`)
     buttonAlign: "right",
     theme: "dark"
   };
-  fetch('https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@main/src/hf-widget.js')
-    .then(r => r.text())
-    .then(code => eval(code));
 </script>
+<script src="https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-widget.js"></script>
 ```
 
 **Custom trigger button:**
@@ -139,10 +133,8 @@ Check collection details (e.g., `ethereum`, `polygon`, `base`)
     chain: "ethereum",
     triggerButtonId: "my-ar-button"
   };
-  fetch('https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@main/src/hf-widget.js')
-    .then(r => r.text())
-    .then(code => eval(code));
 </script>
+<script src="https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-widget.js"></script>
 ```
 
 ---
@@ -159,19 +151,17 @@ View **any NFT from OpenSea** - users paste OpenSea URLs.
 <!-- 1. Add container -->
 <div id="hf-widget"></div>
 
-<!-- 2. Configure and load -->
+<!-- 2. Configure -->
 <script>
   window.hfWidgetConfig = {
     brandColor: "#00a6fb",
     displayMode: "button-input",
     theme: "light"
   };
-
-  fetch('https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@main/src/hf-core.js')
-    .then(r => r.text())
-    .then(code => eval(code))
-    .catch(e => console.error('HF Widget error:', e));
 </script>
+
+<!-- 3. Load widget -->
+<script src="https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-core.js"></script>
 ```
 
 ### Multiple Instances
@@ -199,12 +189,10 @@ View **any NFT from OpenSea** - users paste OpenSea URLs.
       theme: 'dark'
     }
   ];
-
-  fetch('https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@main/src/hf-core.js')
-    .then(r => r.text())
-    .then(code => eval(code))
-    .catch(e => console.error('HF Widget error:', e));
 </script>
+
+<!-- Load widget -->
+<script src="https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-core.js"></script>
 ```
 
 ### Configuration Options
@@ -232,10 +220,8 @@ View **any NFT from OpenSea** - users paste OpenSea URLs.
     displayMode: "button-input",
     theme: "light"
   };
-  fetch('https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@main/src/hf-core.js')
-    .then(r => r.text())
-    .then(code => eval(code));
 </script>
+<script src="https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-core.js"></script>
 ```
 
 **Multiple widgets:**
@@ -258,11 +244,9 @@ View **any NFT from OpenSea** - users paste OpenSea URLs.
       buttonAlign: 'right'
     }
   ];
-  
-  fetch('https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@main/src/hf-core.js')
-    .then(r => r.text())
-    .then(code => eval(code));
 </script>
+
+<script src="https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-core.js"></script>
 ```
 
 **Custom trigger buttons:**
@@ -282,11 +266,9 @@ View **any NFT from OpenSea** - users paste OpenSea URLs.
     brandColor: "#00a6fb",
     triggerClass: "ar-trigger"  // Both buttons trigger modal
   };
-  
-  fetch('https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@main/src/hf-core.js')
-    .then(r => r.text())
-    .then(code => eval(code));
 </script>
+
+<script src="https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-core.js"></script>
 ```
 
 ---
@@ -323,7 +305,7 @@ Ethereum • Polygon • Arbitrum • Optimism • Avalanche • Zora • Base �
 ### Webflow
 
 1. Add an **Embed** element where you want the widget
-2. Paste the complete setup code (container + script)
+2. Paste the complete setup code (container + config + script)
 3. Publish your site
 
 ### WordPress
@@ -372,11 +354,11 @@ Always set config **before** loading widget:
 <!-- ✅ CORRECT -->
 <script>
   window.hfWidgetConfig = { ... };
-  fetch('widget-url').then(...);
 </script>
+<script src="https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-widget.js"></script>
 
 <!-- ❌ WRONG -->
-<script src="widget.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-widget.js"></script>
 <script>
   window.hfWidgetConfig = { ... };  // Too late!
 </script>
@@ -389,7 +371,7 @@ Always set config **before** loading widget:
 
 ### Script Loading
 
-Both widgets use `fetch()` and `eval()` for compatibility across all platforms.
+Widgets are loaded directly from JSDelivr CDN with version pinning for stability.
 
 ---
 
