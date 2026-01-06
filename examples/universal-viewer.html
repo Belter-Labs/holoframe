@@ -19,22 +19,20 @@
 <body>
   <h1>Universal NFT AR Viewer</h1>
   <p>Paste any OpenSea NFT URL to view it in augmented reality.</p>
-
+  
   <!-- Holoframe Widget Container -->
   <div id="hf-widget"></div>
-
-  <!-- Widget Configuration & Loader -->
+  
+  <!-- Widget Configuration -->
   <script>
     window.hfWidgetConfig = {
       brandColor: "#00a6fb",
       displayMode: "button-input",
       theme: "light"
     };
-
-    fetch('https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@main/src/hf-core.js')
-      .then(r => r.text())
-      .then(code => eval(code))
-      .catch(e => console.error('HF Widget load error:', e));
   </script>
+  
+  <!-- Load Holoframe Widget -->
+  <script src="https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-core.js"></script>
 </body>
 </html>
