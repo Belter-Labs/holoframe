@@ -44,4 +44,4 @@ When embedding Holoframe widgets:
 - Temporary IP storage for rate limiting (auto-deleted after 1 hour)
 
 ## Questions?
-For non-security questions, please [open an issue](https://github.com/Belter-Labs/holoframe/issues) or start a [discussion](https://github.com/Belter-Labs/holoframe/discussions).
+For non-security questions, please [open an issue](https://github.com/Belter-Labs/holoframe/issues).
