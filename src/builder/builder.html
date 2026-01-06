@@ -1,351 +1,149 @@
-/* Holoframe Widget Builder JS */
+<!-- Holoframe Widget Builder - HTML -->
+<div id="hfwb-root">
+<!-- Trigger Button -->
+<button id="hfwb-open" class="hfwb-trigger">
+Create your widget
+</button>
 
-(function() {
-'use strict';
+<!-- Builder Modal -->
+<div id="hfwb-modal" class="hfwb-modal">
+<div class="hfwb-modal-content">
+<button class="hfwb-modal-close" onclick="window.closeHFWidgetBuilder()">×</button>
 
-const WORKER_API_URL = 'https://holoframe-api.soft-flower-d4fe.workers.dev';
+<!-- Progress Steps -->
+<div class="hfwb-steps">
+<div class="hfwb-step hfwb-step-active" data-step="1">
+<div class="hfwb-step-number">1</div>
+<div class="hfwb-step-label">Collection</div>
+</div>
+<div class="hfwb-step" data-step="2">
+<div class="hfwb-step-number">2</div>
+<div class="hfwb-step-label">Customize</div>
+</div>
+<div class="hfwb-step" data-step="3">
+<div class="hfwb-step-number">3</div>
+<div class="hfwb-step-label">Get Code</div>
+</div>
+</div>
 
-// Widget URL with version and SRI hash for collection-specific widget
-const WIDGET_URL = 'https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-widget.js';
-const WIDGET_INTEGRITY = 'sha384-OMFTEQstT5WYlhsT/xZvOtJz07x71GVvbWm3eD0HgUAIISO8yYJW1F5rHsAM67Sg';
+<!-- Step 1: Collection URL -->
+<div class="hfwb-step-content" id="hfwbStep1">
+<h2>Enter your OpenSea collection</h2>
+<p class="hfwb-subtitle">Paste your OpenSea collection URL below.</p>
 
-let builderState = {
-collectionSlug: '',
-collectionName: '',
-collectionContract: '',
-collectionChain: '',
-brandColor: '#00a6fb',
-displayMode: 'button-input',
-buttonAlign: 'center',
-theme: 'light'
-};
+<div class="hfwb-input-group">
+<input
+type="text"
+id="hfwbCollectionUrl"
+placeholder="https://opensea.io/collection/pudgypenguins"
+class="hfwb-input"
+/>
+<div id="hfwbCollectionError" class="hfwb-error" style="display: none;"></div>
+<div id="hfwbCollectionSuccess" class="hfwb-success" style="display: none;">
+<span class="hfwb-success-icon">✓</span>
+<span id="hfwbCollectionName"></span>
+</div>
+</div>
 
-// DOM Elements
-const elements = {
-modal: document.getElementById('hfwb-modal'),
-openBtn: document.getElementById('hfwb-open'),
+<button id="hfwbStep1Next" class="hfwb-btn hfwb-btn-primary" disabled>
+Continue
+</button>
+</div>
 
-// Step 1
-step1: document.getElementById('hfwbStep1'),
-collectionUrl: document.getElementById('hfwbCollectionUrl'),
-collectionError: document.getElementById('hfwbCollectionError'),
-collectionSuccess: document.getElementById('hfwbCollectionSuccess'),
-collectionName: document.getElementById('hfwbCollectionName'),
-step1Next: document.getElementById('hfwbStep1Next'),
+<!-- Step 2: Customize -->
+<div class="hfwb-step-content" id="hfwbStep2" style="display: none;">
+<h2>Customize your widget</h2>
+<p class="hfwb-subtitle">Configure how your widget looks and behaves.</p>
 
-// Step 2
-step2: document.getElementById('hfwbStep2'),
-brandColor: document.getElementById('hfwbBrandColor'),
-brandColorHex: document.getElementById('hfwbBrandColorHex'),
-alignmentGroup: document.getElementById('hfwbAlignmentGroup'),
-preview: document.getElementById('hfwbPreview'),
-step2Back: document.getElementById('hfwbStep2Back'),
-step2Next: document.getElementById('hfwbStep2Next'),
+<div class="hfwb-form">
+<!-- Brand Color -->
+<div class="hfwb-form-group">
+<label class="hfwb-label">Brand Color</label>
+<div class="hfwb-color-input">
+<input type="color" id="hfwbBrandColor" value="#00a6fb" class="hfwb-color-picker" />
+<input type="text" id="hfwbBrandColorHex" value="#00a6fb" class="hfwb-color-hex" />
+</div>
+</div>
 
-// Step 3
-step3: document.getElementById('hfwbStep3'),
-embedCode: document.getElementById('hfwbEmbedCode'),
-copyBtn: document.getElementById('hfwbCopyCode'),
-finalPreview: document.getElementById('hfwbFinalPreview'),
-step3Back: document.getElementById('hfwbStep3Back'),
-step3Done: document.getElementById('hfwbStep3Done'),
+<!-- Display Mode -->
+<div class="hfwb-form-group">
+<label class="hfwb-label">Display Mode</label>
+<div class="hfwb-radio-group">
+<label class="hfwb-radio">
+<input type="radio" name="displayMode" value="button-input" checked />
+<span class="hfwb-radio-label">
+<strong>Button + Input</strong>
+<small>Shows input field and button (opens modal)</small>
+</span>
+</label>
+<label class="hfwb-radio">
+<input type="radio" name="displayMode" value="button-only" />
+<span class="hfwb-radio-label">
+<strong>Button Only</strong>
+<small>Single button (opens modal with input)</small>
+</span>
+</label>
+<label class="hfwb-radio">
+<input type="radio" name="displayMode" value="embed" />
+<span class="hfwb-radio-label">
+<strong>Direct Embed</strong>
+<small>Always visible on page (no modal)</small>
+</span>
+</label>
+</div>
+</div>
 
-// Steps progress
-steps: document.querySelectorAll('.hfwb-step')
-};
+<!-- Button Alignment -->
+<div class="hfwb-form-group" id="hfwbAlignmentGroup">
+<label class="hfwb-label">Button Alignment</label>
+<div class="hfwb-toggle-group">
+<button class="hfwb-toggle-btn" data-align="left">Left</button>
+<button class="hfwb-toggle-btn hfwb-toggle-active" data-align="center">Center</button>
+<button class="hfwb-toggle-btn" data-align="right">Right</button>
+</div>
+</div>
 
-// Initialize
-function init() {
-elements.openBtn.addEventListener('click', openBuilder);
-elements.collectionUrl.addEventListener('input', validateCollectionUrl);
-elements.step1Next.addEventListener('click', function() { goToStep(2); });
-elements.step2Back.addEventListener('click', function() { goToStep(1); });
-elements.step2Next.addEventListener('click', function() { goToStep(3); });
-elements.step3Back.addEventListener('click', function() { goToStep(2); });
-elements.step3Done.addEventListener('click', closeBuilder);
-elements.copyBtn.addEventListener('click', copyCode);
+<!-- Theme -->
+<div class="hfwb-form-group">
+<label class="hfwb-label">Theme</label>
+<div class="hfwb-toggle-group">
+<button class="hfwb-toggle-btn hfwb-toggle-active" data-theme="light">Light</button>
+<button class="hfwb-toggle-btn" data-theme="dark">Dark</button>
+</div>
+</div>
+</div>
 
-// Color picker
-elements.brandColor.addEventListener('input', updateBrandColor);
+<div class="hfwb-preview-section">
+<h3>Preview</h3>
+<div id="hfwbPreview" class="hfwb-preview"></div>
+</div>
 
-// Display mode radios
-document.querySelectorAll('input[name="displayMode"]').forEach(function(radio) {
-radio.addEventListener('change', function(e) {
-builderState.displayMode = e.target.value;
-updateAlignmentVisibility();
-updatePreview();
-});
-});
+<div class="hfwb-nav-buttons">
+<button id="hfwbStep2Back" class="hfwb-btn hfwb-btn-secondary">Back</button>
+<button id="hfwbStep2Next" class="hfwb-btn hfwb-btn-primary">Continue</button>
+</div>
+</div>
 
-// Button alignment toggles
-document.querySelectorAll('[data-align]').forEach(function(btn) {
-btn.addEventListener('click', function() {
-document.querySelectorAll('[data-align]').forEach(function(b) {
-b.classList.remove('hfwb-toggle-active');
-});
-this.classList.add('hfwb-toggle-active');
-builderState.buttonAlign = this.dataset.align;
-updatePreview();
-});
-});
+<!-- Step 3: Get Code -->
+<div class="hfwb-step-content" id="hfwbStep3" style="display: none;">
+<h2>Your widget code</h2>
+<p class="hfwb-subtitle">Copy and paste this code into your website</p>
 
-// Theme toggles
-document.querySelectorAll('[data-theme]').forEach(function(btn) {
-btn.addEventListener('click', function() {
-document.querySelectorAll('[data-theme]').forEach(function(b) {
-b.classList.remove('hfwb-toggle-active');
-});
-this.classList.add('hfwb-toggle-active');
-builderState.theme = this.dataset.theme;
-updatePreview();
-});
-});
+<div class="hfwb-code-container">
+<pre id="hfwbEmbedCode" class="hfwb-code"></pre>
+<button id="hfwbCopyCode" class="hfwb-copy-btn">Copy Code</button>
+</div>
 
-// Close modal on outside click
-elements.modal.addEventListener('click', function(e) {
-if (e.target === elements.modal) closeBuilder();
-});
-}
+<div class="hfwb-preview-section">
+<h3>Final preview</h3>
+<div id="hfwbFinalPreview" class="hfwb-preview"></div>
+</div>
 
-function openBuilder() {
-elements.modal.classList.add('active');
-resetBuilder();
-}
-
-function closeBuilder() {
-elements.modal.classList.remove('active');
-}
-
-window.closeHFWidgetBuilder = closeBuilder;
-
-function resetBuilder() {
-goToStep(1);
-elements.collectionUrl.value = '';
-elements.collectionError.style.display = 'none';
-elements.collectionSuccess.style.display = 'none';
-elements.step1Next.disabled = true;
-builderState = {
-collectionSlug: '',
-collectionName: '',
-collectionContract: '',
-collectionChain: '',
-brandColor: '#00a6fb',
-displayMode: 'button-input',
-buttonAlign: 'center',
-theme: 'light'
-};
-}
-
-function goToStep(stepNum) {
-// Hide all steps
-elements.step1.style.display = 'none';
-elements.step2.style.display = 'none';
-elements.step3.style.display = 'none';
-
-// Update progress
-elements.steps.forEach((step, index) => {
-step.classList.remove('hfwb-step-active', 'hfwb-step-completed');
-if (index + 1 < stepNum) {
-step.classList.add('hfwb-step-completed');
-} else if (index + 1 === stepNum) {
-step.classList.add('hfwb-step-active');
-}
-});
-
-// Show current step
-if (stepNum === 1) {
-elements.step1.style.display = 'block';
-} else if (stepNum === 2) {
-elements.step2.style.display = 'block';
-updateAlignmentVisibility();
-updatePreview();
-} else if (stepNum === 3) {
-elements.step3.style.display = 'block';
-generateEmbedCode();
-updateFinalPreview();
-}
-}
-
-function updateAlignmentVisibility() {
-// Show alignment options only for button-only and button-input modes
-if (builderState.displayMode === 'button-only' || builderState.displayMode === 'button-input') {
-elements.alignmentGroup.style.display = 'block';
-} else {
-elements.alignmentGroup.style.display = 'none';
-}
-}
-
-async function validateCollectionUrl() {
-const input = elements.collectionUrl.value.trim();
-elements.collectionError.style.display = 'none';
-elements.collectionSuccess.style.display = 'none';
-elements.step1Next.disabled = true;
-
-if (!input) return;
-
-// Extract slug from URL or use as-is if it's just a slug
-let slug = input;
-const urlMatch = input.match(/opensea\.io\/collection\/([^/?#]+)/i);
-if (urlMatch) {
-slug = urlMatch[1];
-}
-
-if (!slug) {
-showError('Invalid OpenSea collection URL');
-return;
-}
-
-// Validate with Worker API
-try {
-const response = await fetch(WORKER_API_URL + '/validate-collection?slug=' + encodeURIComponent(slug));
-
-if (!response.ok) {
-const errorData = await response.json().catch(() => ({}));
-if (response.status === 404) {
-showError('Collection not found on OpenSea');
-} else if (response.status === 429) {
-showError('Rate limit exceeded. Please wait a moment.');
-} else {
-showError(errorData.error || 'API Error: ' + response.status);
-}
-return;
-}
-
-const data = await response.json();
-
-if (!data || !data.contracts || data.contracts.length === 0) {
-showError('No contract found for this collection');
-return;
-}
-
-// Store collection data
-builderState.collectionSlug = slug;
-builderState.collectionName = data.name || slug;
-builderState.collectionContract = data.contracts[0].address;
-builderState.collectionChain = data.contracts[0].chain;
-
-// Show success
-elements.collectionName.textContent = builderState.collectionName;
-elements.collectionSuccess.style.display = 'flex';
-elements.step1Next.disabled = false;
-
-} catch (error) {
-console.error('Validation error:', error);
-showError('Failed to validate collection. Please try again.');
-}
-}
-
-function showError(message) {
-elements.collectionError.textContent = message;
-elements.collectionError.style.display = 'block';
-elements.step1Next.disabled = true;
-}
-
-function updateBrandColor() {
-builderState.brandColor = elements.brandColor.value;
-elements.brandColorHex.value = builderState.brandColor;
-updatePreview();
-}
-
-function updatePreview() {
-const preview = generatePreviewHTML();
-elements.preview.innerHTML = preview;
-}
-
-function updateFinalPreview() {
-const preview = generatePreviewHTML();
-elements.finalPreview.innerHTML = preview;
-}
-
-function generatePreviewHTML() {
-const isDark = builderState.theme === 'dark';
-const bgColor = isDark ? '#1f2937' : '#ffffff';
-const textColor = isDark ? '#f9fafb' : '#1f2937';
-const borderColor = isDark ? '#374151' : '#d1d5db';
-const placeholderColor = isDark ? '#6b7280' : '#d1d5db';
-
-// Determine alignment styles
-let alignStyle = 'margin: 0 auto;'; // center
-if (builderState.buttonAlign === 'left') {
-alignStyle = 'margin: 0 auto 0 0;';
-} else if (builderState.buttonAlign === 'right') {
-alignStyle = 'margin: 0 0 0 auto;';
-}
-
-if (builderState.displayMode === 'button-input') {
-return '<div style="width: 100%; max-width: 400px; ' + alignStyle + ' font-family: \'Quattrocento Sans\', sans-serif;">' +
-'<div style="display: flex; flex-direction: column; gap: 10px;">' +
-'<input type="text" placeholder="Enter Token ID (e.g. 1234)" style="padding: 12px; font-size: 0.95rem; border: 2px solid ' + borderColor + '; border-radius: 8px; background: ' + bgColor + '; color: ' + textColor + '; font-family: \'Quattrocento Sans\', sans-serif;" disabled />' +
-'<button style="padding: 12px; font-size: 1rem; background: ' + builderState.brandColor + '; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-family: \'Quattrocento Sans\', sans-serif;">View in AR</button>' +
-'</div></div>';
-} else if (builderState.displayMode === 'button-only') {
-return '<div style="width: 100%; max-width: 400px; ' + alignStyle + ' font-family: \'Quattrocento Sans\', sans-serif;">' +
-'<button style="padding: 14px 24px; font-size: 1rem; background: ' + builderState.brandColor + '; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; width: 100%; font-family: \'Quattrocento Sans\', sans-serif;">View NFT in AR</button>' +
-'</div>';
-} else {
-return '<div style="width: 100%; max-width: 400px; padding: 20px; background: ' + bgColor + '; border: 2px solid ' + borderColor + '; border-radius: 12px; font-family: \'Quattrocento Sans\', sans-serif; color: ' + textColor + ';">' +
-'<div style="margin-bottom: 15px;">' +
-'<input type="text" placeholder="Enter Token ID" style="width: 100%; padding: 12px; font-size: 0.95rem; border: 2px solid ' + borderColor + '; border-radius: 8px; background: ' + bgColor + '; color: ' + textColor + '; font-family: \'Quattrocento Sans\', sans-serif;" disabled />' +
-'</div>' +
-'<div style="width: 100%; height: 200px; background: ' + (isDark ? '#111827' : '#f3f4f6') + '; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: ' + placeholderColor + '; font-size: 0.9rem;">3D Viewer</div>' +
-'<button style="width: 100%; padding: 12px; font-size: 1rem; background: ' + builderState.brandColor + '; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; margin-top: 15px; font-family: \'Quattrocento Sans\', sans-serif;">View in AR</button>' +
-'</div>';
-}
-}
-
-function generateEmbedCode() {
-const config = {
-collection: builderState.collectionSlug,
-contract: builderState.collectionContract,
-chain: builderState.collectionChain,
-brandColor: builderState.brandColor,
-displayMode: builderState.displayMode,
-theme: builderState.theme
-};
-
-// Only add buttonAlign if not embed mode (since it doesn't apply there)
-if (builderState.displayMode !== 'embed') {
-config.buttonAlign = builderState.buttonAlign;
-config.buttonPadding = 0;
-}
-
-const configJson = JSON.stringify(config, null, 2);
-
-const code = '<!-- Holoframe Widget for ' + builderState.collectionName + ' -->\n' +
-'<div id="hf-widget"></div>\n' +
-'<script>\n' +
-'window.hfWidgetConfig = ' + configJson + ';\n' +
-'</script' + '>\n' +
-'<script \n' +
-'  src="' + WIDGET_URL + '"\n' +
-'  integrity="' + WIDGET_INTEGRITY + '"\n' +
-'  crossorigin="anonymous">\n' +
-'</script' + '>';
-
-elements.embedCode.textContent = code;
-}
-
-function copyCode() {
-const code = elements.embedCode.textContent;
-navigator.clipboard.writeText(code).then(function() {
-const originalText = elements.copyBtn.innerHTML;
-elements.copyBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg> Copied!';
-elements.copyBtn.classList.add('copied');
-
-setTimeout(function() {
-elements.copyBtn.innerHTML = originalText;
-elements.copyBtn.classList.remove('copied');
-}, 2000);
-}).catch(function(err) {
-console.error('Failed to copy:', err);
-alert('Failed to copy code. Please copy manually.');
-});
-}
-
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-document.addEventListener('DOMContentLoaded', init);
-} else {
-init();
-}
-})();
+<div class="hfwb-nav-buttons">
+<button id="hfwbStep3Back" class="hfwb-btn hfwb-btn-secondary">Back</button>
+<button id="hfwbStep3Done" class="hfwb-btn hfwb-btn-primary">Done</button>
+</div>
+</div>
+</div>
+</div>
+</div>
