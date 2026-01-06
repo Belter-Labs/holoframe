@@ -19,11 +19,11 @@
 <body>
   <h1>Pudgy Penguins AR Viewer</h1>
   <p>Enter a token ID below to view the NFT in augmented reality.</p>
-
+  
   <!-- Holoframe Widget Container -->
   <div id="hf-widget"></div>
-
-  <!-- Widget Configuration & Loader -->
+  
+  <!-- Widget Configuration -->
   <script>
     window.hfWidgetConfig = {
       collection: "pudgypenguins",
@@ -33,11 +33,9 @@
       displayMode: "button-input",
       theme: "light"
     };
-
-    fetch('https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@main/src/hf-widget.js')
-      .then(r => r.text())
-      .then(code => eval(code))
-      .catch(e => console.error('HF Widget load error:', e));
   </script>
+  
+  <!-- Load Holoframe Widget -->
+  <script src="https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-widget.js"></script>
 </body>
 </html>
