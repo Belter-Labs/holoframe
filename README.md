@@ -156,18 +156,6 @@ Potential future features being considered:
 
 *Have a feature request? [Open an issue](https://github.com/Belter-Labs/holoframe/issues)*
 
-## Widget Builder
-
-Use the [Widget Builder](docs/WIDGET_BUILDER.md) to generate custom embed code through a simple UI:
-
-```html
-<!-- Include the Widget Builder on your site -->
-<link rel="stylesheet" href="src/builder/builder.css">
-<div id="hfwb-root"></div>
-<script src="src/builder/builder.html"></script>
-<script src="src/builder/builder.js"></script>
-```
-
 ## Examples
 
 - [Basic Collection Widget](examples/basic-collection.html)
