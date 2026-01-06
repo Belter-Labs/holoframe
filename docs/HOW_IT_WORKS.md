@@ -39,7 +39,7 @@ fetch('https://holoframe-api.soft-flower-d4fe.workers.dev?chain=ethereum&contrac
 
 Holoframe uses a **pre-built base GLB file** (hosted on Cloudinary CDN) containing the 3D frame geometry. The widget then:
 
-1. **Loads base GLB** - Pre-made 3D frame from Cloudinary CDN
+1. **Loads base GLB** - Pre-made 3D frame from Cloudflare CDN
 2. **Fetches NFT texture** - NFT image from OpenSea (via Cloudflare Worker proxy)
 3. **Applies texture** - model-viewer swaps the texture and applies material properties
 
@@ -156,16 +156,15 @@ Holoframe collects **zero analytics or cookies**. Only temporary IP addresses fo
 
 The Cloudflare Worker automatically rotates between multiple OpenSea API keys to maximize throughput.
 
-
 ### Lazy Loading
 
-The widget script is fetched asynchronously and only loads when needed:
+The widget script is loaded asynchronously from CDN:
 
-```javascript
-fetch('...widget.js')
-  .then(r => r.text())
-  .then(code => eval(code));
+```html
+<script src="https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-widget.js"></script>
 ```
+
+The browser handles caching, and JSDelivr CDN ensures fast global delivery.
 
 ## Browser Compatibility
 
