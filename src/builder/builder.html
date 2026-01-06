@@ -1,0 +1,149 @@
+<!-- Holoframe Widget Builder - HTML -->
+<div id="hfwb-root">
+<!-- Trigger Button -->
+<button id="hfwb-open" class="hfwb-trigger">
+Create your widget
+</button>
+
+<!-- Builder Modal -->
+<div id="hfwb-modal" class="hfwb-modal">
+<div class="hfwb-modal-content">
+<button class="hfwb-modal-close" onclick="window.closeHFWidgetBuilder()">×</button>
+
+<!-- Progress Steps -->
+<div class="hfwb-steps">
+<div class="hfwb-step hfwb-step-active" data-step="1">
+<div class="hfwb-step-number">1</div>
+<div class="hfwb-step-label">Collection</div>
+</div>
+<div class="hfwb-step" data-step="2">
+<div class="hfwb-step-number">2</div>
+<div class="hfwb-step-label">Customize</div>
+</div>
+<div class="hfwb-step" data-step="3">
+<div class="hfwb-step-number">3</div>
+<div class="hfwb-step-label">Get Code</div>
+</div>
+</div>
+
+<!-- Step 1: Collection URL -->
+<div class="hfwb-step-content" id="hfwbStep1">
+<h2>Enter your OpenSea collection</h2>
+<p class="hfwb-subtitle">Paste your OpenSea collection URL below.</p>
+
+<div class="hfwb-input-group">
+<input
+type="text"
+id="hfwbCollectionUrl"
+placeholder="https://opensea.io/collection/pudgypenguins"
+class="hfwb-input"
+/>
+<div id="hfwbCollectionError" class="hfwb-error" style="display: none;"></div>
+<div id="hfwbCollectionSuccess" class="hfwb-success" style="display: none;">
+<span class="hfwb-success-icon">✓</span>
+<span id="hfwbCollectionName"></span>
+</div>
+</div>
+
+<button id="hfwbStep1Next" class="hfwb-btn hfwb-btn-primary" disabled>
+Continue
+</button>
+</div>
+
+<!-- Step 2: Customize -->
+<div class="hfwb-step-content" id="hfwbStep2" style="display: none;">
+<h2>Customize your widget</h2>
+<p class="hfwb-subtitle">Configure how your widget looks and behaves.</p>
+
+<div class="hfwb-form">
+<!-- Brand Color -->
+<div class="hfwb-form-group">
+<label class="hfwb-label">Brand Color</label>
+<div class="hfwb-color-input">
+<input type="color" id="hfwbBrandColor" value="#00a6fb" class="hfwb-color-picker" />
+<input type="text" id="hfwbBrandColorHex" value="#00a6fb" class="hfwb-color-hex" />
+</div>
+</div>
+
+<!-- Display Mode -->
+<div class="hfwb-form-group">
+<label class="hfwb-label">Display Mode</label>
+<div class="hfwb-radio-group">
+<label class="hfwb-radio">
+<input type="radio" name="displayMode" value="button-input" checked />
+<span class="hfwb-radio-label">
+<strong>Button + Input</strong>
+<small>Shows input field and button (opens modal)</small>
+</span>
+</label>
+<label class="hfwb-radio">
+<input type="radio" name="displayMode" value="button-only" />
+<span class="hfwb-radio-label">
+<strong>Button Only</strong>
+<small>Single button (opens modal with input)</small>
+</span>
+</label>
+<label class="hfwb-radio">
+<input type="radio" name="displayMode" value="embed" />
+<span class="hfwb-radio-label">
+<strong>Direct Embed</strong>
+<small>Always visible on page (no modal)</small>
+</span>
+</label>
+</div>
+</div>
+
+<!-- Button Alignment -->
+<div class="hfwb-form-group" id="hfwbAlignmentGroup">
+<label class="hfwb-label">Button Alignment</label>
+<div class="hfwb-toggle-group">
+<button class="hfwb-toggle-btn" data-align="left">Left</button>
+<button class="hfwb-toggle-btn hfwb-toggle-active" data-align="center">Center</button>
+<button class="hfwb-toggle-btn" data-align="right">Right</button>
+</div>
+</div>
+
+<!-- Theme -->
+<div class="hfwb-form-group">
+<label class="hfwb-label">Theme</label>
+<div class="hfwb-toggle-group">
+<button class="hfwb-toggle-btn hfwb-toggle-active" data-theme="light">Light</button>
+<button class="hfwb-toggle-btn" data-theme="dark">Dark</button>
+</div>
+</div>
+</div>
+
+<div class="hfwb-preview-section">
+<h3>Preview</h3>
+<div id="hfwbPreview" class="hfwb-preview"></div>
+</div>
+
+<div class="hfwb-nav-buttons">
+<button id="hfwbStep2Back" class="hfwb-btn hfwb-btn-secondary">Back</button>
+<button id="hfwbStep2Next" class="hfwb-btn hfwb-btn-primary">Continue</button>
+</div>
+</div>
+
+<!-- Step 3: Get Code -->
+<div class="hfwb-step-content" id="hfwbStep3" style="display: none;">
+<h2>Your widget code</h2>
+<p class="hfwb-subtitle">Copy and paste this code into your website</p>
+
+<div class="hfwb-code-container">
+<pre id="hfwbEmbedCode" class="hfwb-code"></pre>
+<button id="hfwbCopyCode" class="hfwb-copy-btn">Copy Code</button>
+</div>
+
+<div class="hfwb-preview-section">
+<h3>Final preview</h3>
+<div id="hfwbFinalPreview" class="hfwb-preview"></div>
+</div>
+
+<div class="hfwb-nav-buttons">
+<button id="hfwbStep3Back" class="hfwb-btn hfwb-btn-secondary">Back</button>
+<button id="hfwbStep3Done" class="hfwb-btn hfwb-btn-primary">Done</button>
+</div>
+</div>
+</div>
+</div>
+</div>
