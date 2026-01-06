@@ -1,10 +1,22 @@
-<script>/* Holoframe Widget Builder JS */
+/* Holoframe Widget Builder JS */
 
 (function() {
 'use strict';
 
 const WORKER_API_URL = 'https://holoframe-api.soft-flower-d4fe.workers.dev';
-const WIDGET_JS_URL = 'https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@main/src/hf-widget.js';
+
+// Widget URLs with version and SRI hashes
+const WIDGET_VERSION = 'v1.0.0';
+const WIDGET_URLS = {
+  universal: {
+    url: 'https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-widget.js',
+    integrity: 'sha384-OMFTEQstT5WYlhsT/xZvOtJz07x71GVvbWm3eD0HgUAIISO8yYJW1F5rHsAM67Sg'
+  },
+  collection: {
+    url: 'https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-core.js',
+    integrity: 'sha384-Pn40aEA4Ut/ppJrIPnYW4loJhdG4nVLcL+Qtbogd1wgwkNMhLWeoYdE0xlU83uM/'
+  }
+};
 
 let builderState = {
 collectionSlug: '',
@@ -303,20 +315,23 @@ theme: builderState.theme
 // Only add buttonAlign if not embed mode (since it doesn't apply there)
 if (builderState.displayMode !== 'embed') {
 config.buttonAlign = builderState.buttonAlign;
-config.buttonPadding = 0; // Set to 0 by default, users can customize if needed
+config.buttonPadding = 0;
 }
 
 const configJson = JSON.stringify(config, null, 2);
 
+// Use collection-specific widget (hf-core.js) since we have collection data
+const widgetInfo = WIDGET_URLS.collection;
+
 const code = '<!-- Holoframe Widget for ' + builderState.collectionName + ' -->\n' +
 '<div id="hf-widget"></div>\n' +
 '<script>\n' +
-'window.hfWidgetConfig = ' + configJson + ';\n\n' +
-'// Load widget \n' +
-'fetch(\'' + WIDGET_JS_URL + '\')\n' +
-' .then(r => r.text())\n' +
-' .then(code => eval(code))\n' +
-' .catch(e => console.error(\'HF Widget load error:\', e));\n' +
+'window.hfWidgetConfig = ' + configJson + ';\n' +
+'</script' + '>\n' +
+'<script \n' +
+'  src="' + widgetInfo.url + '"\n' +
+'  integrity="' + widgetInfo.integrity + '"\n' +
+'  crossorigin="anonymous">\n' +
 '</script' + '>';
 
 elements.embedCode.textContent = code;
@@ -346,4 +361,3 @@ document.addEventListener('DOMContentLoaded', init);
 init();
 }
 })();
-</script>
