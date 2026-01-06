@@ -6,7 +6,7 @@ _**AR tool for viewing NFTs in augmented reality**_
 
 View any NFT from OpenSea in AR on your mobile device. Use it directly at [holoframe.io](https://holoframe.io) or embed AR widgets on your own website.
 
-This repository contains the open-source code for Holoframe's embeddable widgets. Built by [Belter Labs](https://belterlabs.com/).
+_This repository contains the open-source code for Holoframe's embeddable widgets. Built by [Belter Labs](https://belterlabs.com/)._
 
 
 ## Two Ways to Use Holoframe
