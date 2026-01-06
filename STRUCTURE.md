@@ -53,17 +53,6 @@ Working HTML examples you can open in a browser:
 - **universal-viewer.html** - Universal OpenSea viewer
 - **dark-theme.html** - Azuki widget with dark theme and embed mode
 
-### GitHub Config (`.github/`)
-- Issue templates for bugs and feature requests
-- Future: CI/CD workflows, PR templates
-
-## Missing Files (To Be Added)
-
-You'll need to manually copy these from your documents:
-
-1. **src/builder/builder.js** - The Widget Builder JavaScript logic
-2. Any additional example files
-3. Screenshots/images for README
 
 ## Usage
 
@@ -86,6 +75,6 @@ This repository is hosted on GitHub at https://github.com/Belter-Labs/holoframe
 
 The widget code is served directly from GitHub's raw content URLs for:
 - Stable URLs that never change with edits
-- Automatic updates when you push changes
+- Automatic updates for changes
 - Version control through GitHub
 - Easy rollback if needed
