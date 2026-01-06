@@ -202,7 +202,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## Built By
 
-[Belter Labs](https://belterlabs.com/) - Building tools for web3
+[Belter Labs](https://belterlabs.com/) 
 
 **Note:** We are not accepting pull requests. However, you're free to fork and build your own version!
 
