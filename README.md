@@ -45,6 +45,7 @@ The easiest way to create a collection-specific widget:
 **One widget per page** - for a single NFT collection where users enter token IDs:
 
 ```html
+<!-- Holoframe Widget for Pudgy Penguins -->
 <div id="hf-widget"></div>
 <script>
 window.hfWidgetConfig = {
@@ -55,12 +56,8 @@ window.hfWidgetConfig = {
   displayMode: "button-input",
   theme: "light"
 };
-
-fetch('https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@main/src/hf-widget.js')
-  .then(r => r.text())
-  .then(code => eval(code))
-  .catch(e => console.error('HF Widget load error:', e));
 </script>
+<script src="https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-widget.js"></script>
 ```
 
 #### Universal Widget (Single Instance)
@@ -68,6 +65,7 @@ fetch('https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@main/src/hf-widget.js')
 View **any NFT from OpenSea** - users paste OpenSea URLs:
 
 ```html
+<!-- Holoframe Universal Widget -->
 <div id="hf-widget"></div>
 <script>
 window.hfWidgetConfig = {
@@ -75,12 +73,8 @@ window.hfWidgetConfig = {
   displayMode: "button-input",
   theme: "light"
 };
-
-fetch('https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@main/src/hf-core.js')
-  .then(r => r.text())
-  .then(code => eval(code))
-  .catch(e => console.error('HF Widget load error:', e));
 </script>
+<script src="https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-core.js"></script>
 ```
 
 #### Universal Widget (Multiple Instances)
@@ -106,11 +100,8 @@ window.hfWidgets = [
     theme: 'dark'
   }
 ];
-
-fetch('https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@main/src/hf-core.js')
-  .then(r => r.text())
-  .then(code => eval(code));
 </script>
+<script src="https://cdn.jsdelivr.net/gh/Belter-Labs/holoframe@v1.0.0/src/hf-core.js"></script>
 ```
 
 ## Documentation
